@@ -1,7 +1,7 @@
 class TimeSheetsController < ApplicationController
 
 	def index
-		@work_infos = WorkingInfo.where("created_at::date = ?", Date.today)
+		@work_infos = WorkingInfo.includes(:user, :project).where("created_at::date = ?", Date.today)
 	end
 
 	def new
