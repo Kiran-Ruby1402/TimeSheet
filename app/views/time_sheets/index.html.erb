@@ -1,0 +1,33 @@
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css">
+<div style="margin: 20px">
+<center><h3><u>Today Working Information</u>:<h3></center><br>
+<table id="example" class="table table-striped table-bordered" style="width:100%">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Project</th>
+            <th>Hours</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+    	<%@work_infos.each do |info|%>
+	        <tr>
+	            <td><%= info.user.full_name%></td>
+	            <td><%= info.project.name%></td>
+	            <td><%= info.number_of_hours%></td>
+	            <td><%= info.description%></td>
+            </tr>
+        <%end%>
+    </tbody>
+</table>
+</div>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#example').DataTable();
+	} );
+</script>
