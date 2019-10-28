@@ -5,8 +5,8 @@ class TimeSheetsController < ApplicationController
 	end
 
 	def new
-		@projects = Project.order(:name).map{|x| [x.name, x.id]}
-		@employees = User.order(:first_name).map{|x| [x.first_name, x.id]}
+		@projects = Project.order(:name)
+		@employees = User.order(:first_name)
 	end
 
 	def create

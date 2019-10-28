@@ -14,27 +14,43 @@
       </div>
     </div>
     <br><br>
-    <center><button id="submit_button">Save</button></center>
+    <center><button id="submit_button" class="btn btn-success">Save</button></center>
   </div>
 </div>
 
 
 <script type="text/javascript">
   $(document).ready(function () {
+    if($(".select2").attr("id") == undefined){
+      $("#submit_button").hide();
+    }
     var next = 0;
     $("#add-more").click(function(e){
+      $("#submit_button").show();
       e.preventDefault();
       var addto = "#field" + next;
       var addRemove = "#field" + (next);
       next = next + 1;
-      var newIn = '<div id="field'+ next +'" name="field'+ next +'"><!-- Text input--><div class="row form-group"><div class="col-md-6"><label class="col-md-3 control-label" for="action_id">Projects</label><div class="col-md-5"><select name="projects[]" id="projects_" class="form-control input-md select2" required="required"><option value="">Select a project</option><option value="6">Project-1</option><option value="7">Project-2</option><option value="8">Project-3</option><option value="9">Project-4</option><option value="10">Project-5</option></select></div></div><div class="col-md-6"><label class="col-md-3 control-label" for="action_id">Employees</label><div class="col-md-5"><select name="employees[]" id="employees_" class="form-control input-md select2" required="required"><option value="">Select a employee</option><option value="11">Emp</option><option value="12">Emp</option><option value="13">Emp</option><option value="14">Emp</option><option value="15">Emp</option><option value="16">Emp</option><option value="17">Emp</option><option value="18">Emp</option><option value="19">Emp</option><option value="20">Emp</option></select></div></div></div><div class="row form-group"><div class="col-md-6"><label class="col-md-3 control-label" for="action_id">Number of hours</label><div class="col-md-5"><%= number_field_tag "number_of_hours[]", nil, min: 1, max: 4, class: "form-control input-md", placeholder: "No hours" %></div></div><div class="col-md-6"><label class="col-md-3 control-label" for="action_id">Description</label><div class="col-md-5"><textarea cols="25" rows="4" name="description[]"></textarea></div></div></div>';
+      var newIn = '<div id="field'+ next +'" name="field'+ next +'"><!-- Text input--><div class="row form-group"><div class="col-md-6"><label class="col-md-3 control-label" for="action_id">Projects</label><div class="col-md-5"><select name="projects[]" id="projects_'+next+'" class="form-control input-md select2" required="required"><option value="">Select a project</option></select></div></div><div class="col-md-6"><label class="col-md-3 control-label" for="action_id">Employees</label><div class="col-md-5"><select name="employees[]" id="employees_'+next+'" class="form-control input-md select2" required="required"><option value="">Select a employee</option></select></div></div></div><div class="row form-group"><div class="col-md-6"><label class="col-md-3 control-label" for="action_id">Number of hours</label><div class="col-md-5"><%= number_field_tag "number_of_hours[]", nil, min: 1, max: 4, class: "form-control input-md", placeholder: "No hours" %></div></div><div class="col-md-6"><label class="col-md-3 control-label" for="action_id">Description</label><div class="col-md-5"><textarea cols="25" rows="4" name="description[]"></textarea></div></div></div>';
       var newInput = $(newIn);
       var removeBtn = '<button id="remove' + (next - 1) + '" class="btn btn-danger remove-me" >Remove</button></div></div><div id="field">';
       var removeButton = $(removeBtn);
       $(addto).after(newInput);
       $(addRemove).after(removeButton);
       $("#field" + next).attr('data-source',$(addto).attr('data-source'));
-      $("#count").val(next);  
+      $("#count").val(next);
+      <%@projects.each do |project|%>
+        $('#projects_'+next).append($('<option>', {
+          value: "<%= project.id%>",
+          text : "<%= project.name%>"
+        }));
+      <%end%>
+      <%@employees.each do |employee|%>
+        $('#employees_'+next).append($('<option>', {
+          value: "<%= employee.id%>",
+          text : "<%= employee.full_name%>"
+        }));
+      <%end%>
       $('.remove-me').click(function(e){
         e.preventDefault();
         var fieldNum = this.id.charAt(this.id.length-1);
